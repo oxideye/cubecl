@@ -18,7 +18,10 @@ pub enum AMDArchitecture {
 impl AMDArchitecture {
     pub fn parse(arg: &str) -> Result<Self, String> {
         let norm = arg.to_lowercase();
-        if norm.starts_with("gfx11") {
+        // RDNA4 (gfx12*) uses wave32 like RDNA3, map to GFX11
+        if norm.starts_with("gfx12") {
+            Ok(AMDArchitecture::GFX11)
+        } else if norm.starts_with("gfx11") {
             Ok(AMDArchitecture::GFX11)
         } else if norm.starts_with("gfx10") {
             Ok(AMDArchitecture::GFX10)
